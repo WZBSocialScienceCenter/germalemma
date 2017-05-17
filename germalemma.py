@@ -1,6 +1,9 @@
+# -*- coding: utf-8
+
 # https://datascience.blog.wzb.eu/2016/07/13/accurate-part-of-speech-tagging-of-german-texts-with-nltk/
 # http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html
 
+import codecs
 from collections import defaultdict
 
 from pyphen import Pyphen
@@ -46,7 +49,7 @@ class GermaLemma(object):
         lemmata = defaultdict(dict)
         lemmata_lower = defaultdict(dict)
 
-        with open(corpus_file) as f:
+        with codecs.open(corpus_file, encoding="utf-8") as f:
             for line in f:
                 parts = line.split()
                 if len(parts) == 15:
