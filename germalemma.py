@@ -10,6 +10,30 @@ from pyphen import Pyphen
 
 VALID_POS_PREFIXES = ('N', 'V', 'ADJ', 'ADV')
 
+ADJ_SUFFIXES_BASE = (
+    'bar',
+    'haft',
+    'ig',
+    'isch',
+    'lich',
+    'los',
+    'sam',
+    'en',
+    'ern'
+)
+
+ADJ_SUFFIXES_FLEX = (
+    'e',
+    'er',
+    'es'
+)
+
+ADJ_SUFFIXES_DICT = {}
+
+for suffix in ADJ_SUFFIXES_BASE:
+    for flex in ADJ_SUFFIXES_FLEX:
+        ADJ_SUFFIXES_DICT[suffix + flex] = suffix
+
 
 class GermaLemma(object):
     pyphen_dic = Pyphen(lang='de')
@@ -35,6 +59,21 @@ class GermaLemma(object):
         if res:
             return res
 
+        res = self._composita_lemma(w) or w
+
+        if pos == 'ADJ':
+            res = self._adj_lemma(res)
+
+        return res
+
+    def _adj_lemma(self, w):
+        for full, reduced in ADJ_SUFFIXES_DICT.items():
+            if w.endswith(full):
+                return w[:-len(full)] + reduced
+
+        return w
+
+    def _composita_lemma(self, w):
         # now split `w` by hyphenation step by step
         for hy_pos in self.pyphen_dic.positions(w):
             # split in left and right parts (start and end of the strings)
@@ -42,13 +81,12 @@ class GermaLemma(object):
 
             # look if the right part can be found in the lemmata dictionary
             # if we have a noun, a lower case match will also be accepted
-            res = self.dict_search(right, pos, use_lower=(pos == 'N' and right[0].islower()))
+            res = self.dict_search(right, 'N', use_lower=right[0].islower())
             if res:
                 # concatenate the left side with the found partial lemma
                 return left + res.lower()
 
-        # no (partial) lemma found -> return the input word
-        return w
+        return None
 
     @staticmethod
     def load_corpus_lemmata(corpus_file):
@@ -84,19 +122,3 @@ class GermaLemma(object):
 
         return pos_lemmata.get(w, None)
 
-
-# def load_sentences(corpus_file):
-#     sents = []
-#     cur_sent = []
-#     with open(corpus_file) as f:
-#         for line in f:
-#             parts = line.split()
-#             if len(parts) == 15:
-#                 token, lemma = parts[1:3]
-#                 pos = parts[4]
-#                 cur_sent.append((token, lemma, pos))
-#             else:
-#                 sents.append(cur_sent)
-#                 cur_sent = []
-#
-#     return sents

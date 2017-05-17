@@ -17,3 +17,4 @@ def test_find_lemma_unknown():
 
 def test_find_lemma_nonsense():
     assert lemmatizer.find_lemma(u'xyz123', 'N') == u'xyz123'
+    assert lemmatizer.find_lemma('', 'N') == ''
