@@ -14,8 +14,14 @@ VALID_POS_PREFIXES = ('N', 'V', 'ADJ', 'ADV')
 class GermaLemma(object):
     pyphen_dic = Pyphen(lang='de')
 
-    def __init__(self, tiger_corpus_file):
-        self.lemmata, self.lemmata_lower = self._load_corpus_lemmata(tiger_corpus_file)
+    def __init__(self, **kwargs):
+        if 'lemmata' in kwargs and 'lemmata_lower' in kwargs:
+            self.lemmata = kwargs['lemmata']
+            self.lemmata_lower = kwargs['lemmata_lower']
+        elif 'tiger_corpus' in kwargs:
+            self.lemmata, self.lemmata_lower = self.load_corpus_lemmata(kwargs['tiger_corpus'])
+        else:
+            raise ValueError("Either `tiger_corpus` must be passed as path to tiger corpus file or `lemmata` and `lemmata_lower` dicts")
 
     def find_lemma(self, w, pos):
         if pos not in VALID_POS_PREFIXES:
@@ -45,7 +51,7 @@ class GermaLemma(object):
         return w
 
     @staticmethod
-    def _load_corpus_lemmata(corpus_file):
+    def load_corpus_lemmata(corpus_file):
         lemmata = defaultdict(dict)
         lemmata_lower = defaultdict(dict)
 

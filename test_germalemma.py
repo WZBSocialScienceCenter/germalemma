@@ -2,7 +2,7 @@
 
 from germalemma import GermaLemma
 
-lemmatizer = GermaLemma("data/tiger_release_aug07.corrected.16012013.conll09")
+lemmatizer = GermaLemma(tiger_corpus="data/tiger_release_aug07.corrected.16012013.conll09")
 
 
 def test_find_lemma_known():
