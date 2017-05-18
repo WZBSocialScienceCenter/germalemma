@@ -26,19 +26,19 @@ def load_tokens(corpus_file):
     return tokens
 
 
-# from collections import defaultdict
-# lemmata = defaultdict(dict)
-# with open("data/tiger_release_aug07.corrected.16012013.conll09") as f:
-#     for line in f:
-#         parts = line.split()
-#         if len(parts) == 15:
-#             token, lemma = parts[1:3]
-#             token_lower = token.lower()
-#             pos = parts[4]
-#
-#             for pos_prefix in ('N', 'V', 'ADJ', 'ADV'):
-#                 if pos.startswith(pos_prefix):
-#                     if token not in lemmata[pos_prefix]:
-#                         lemmata[pos_prefix][token] = lemma
-#                     if lemma not in lemmata[pos_prefix]:  # for quicker lookup
-#                         lemmata[pos_prefix][lemma] = lemma
+from collections import defaultdict
+lemmata = defaultdict(dict)
+with open("data/tiger_release_aug07.corrected.16012013.conll09") as f:
+    for line in f:
+        parts = line.split()
+        if len(parts) == 15:
+            token, lemma = parts[1:3]
+            token_lower = token.lower()
+            pos = parts[4]
+
+            for pos_prefix in ('N', 'V', 'ADJ', 'ADV'):
+                if pos.startswith(pos_prefix):
+                    if token not in lemmata[pos_prefix]:
+                        lemmata[pos_prefix][token] = lemma
+                    if lemma not in lemmata[pos_prefix]:  # for quicker lookup
+                        lemmata[pos_prefix][lemma] = lemma

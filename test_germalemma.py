@@ -1,20 +1,38 @@
 # -*- coding: utf-8
 
-from germalemma import GermaLemma
+from germalemma import GermaLemma, VALID_POS_PREFIXES
 
 lemmatizer = GermaLemma(tiger_corpus="data/tiger_release_aug07.corrected.16012013.conll09")
 
+test_table = (
+    # known nouns
+    ((u'US-Präsident', 'N'), u'US-Präsident'),
+    ((u'US-Präsidenten', 'N'), u'US-Präsident'),
+    # unknown nouns
+    ((u'US-Präsidentenhaus', 'N'), u'US-Präsidentenhaus'),
+    ((u'US-Präsidentenhäuser', 'N'), u'US-Präsidentenhaus'),
+    # known adjectives
+    ((u'fies', 'ADJ'), u'fies'),
+    ((u'besser', 'ADJ'), u'gut'),
+    ((u'schöne', 'ADJ'), u'schön'),
+    # unknown adjectives
+    ((u'unbeschreibliches', 'ADJ'), u'unbeschreiblich'),
+    ((u'klagloser', 'ADJ'), u'klaglos'),
+    # nonsense
+    ((u'xyz123', 'N'), u'xyz123'),
+    ((u'', 'ADV'), u''),
+)
 
-def test_find_lemma_known():
-    assert lemmatizer.find_lemma(u'US-Präsident', 'N') == u'US-Präsident'
-    assert lemmatizer.find_lemma(u'US-Präsidenten', 'N') == u'US-Präsident'
+
+def test_find_lemma():
+    for test, expected in test_table:
+        assert lemmatizer.find_lemma(*test) == expected
 
 
-def test_find_lemma_unknown():
-    assert lemmatizer.find_lemma(u'US-Präsidentenhaus', 'N') == u'US-Präsidentenhaus'
-    assert lemmatizer.find_lemma(u'US-Präsidentenhäuser', 'N') == u'US-Präsidentenhaus'
+def test_pickle():
+    lemmatizer.save_to_pickle('data/lemmata.pickle')
+    lemmatizer_from_pickle = GermaLemma(pickle='data/lemmata.pickle')
 
-
-def test_find_lemma_nonsense():
-    assert lemmatizer.find_lemma(u'xyz123', 'N') == u'xyz123'
-    assert lemmatizer.find_lemma('', 'N') == ''
+    for pos in VALID_POS_PREFIXES:
+        assert len(lemmatizer.lemmata[pos]) == len(lemmatizer_from_pickle.lemmata[pos])
+        assert len(lemmatizer.lemmata_lower[pos]) == len(lemmatizer_from_pickle.lemmata_lower[pos])

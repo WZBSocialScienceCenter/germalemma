@@ -4,6 +4,7 @@
 # http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html
 
 import codecs
+import pickle
 from collections import defaultdict
 
 from pyphen import Pyphen
@@ -39,13 +40,16 @@ class GermaLemma(object):
     pyphen_dic = Pyphen(lang='de')
 
     def __init__(self, **kwargs):
-        if 'lemmata' in kwargs and 'lemmata_lower' in kwargs:
+        if 'lemmata' in kwargs:
             self.lemmata = kwargs['lemmata']
-            self.lemmata_lower = kwargs['lemmata_lower']
+            self.lemmata_lower = {pos: {token.lower(): lemma for token, lemma in pos_lemmata}
+                                  for pos, pos_lemmata in self.lemmata.items()}
         elif 'tiger_corpus' in kwargs:
             self.lemmata, self.lemmata_lower = self.load_corpus_lemmata(kwargs['tiger_corpus'])
+        elif 'pickle' in kwargs:
+            self.load_from_pickle(kwargs['pickle'])
         else:
-            raise ValueError("Either `tiger_corpus` must be passed as path to tiger corpus file or `lemmata` and `lemmata_lower` dicts")
+            raise ValueError("Either `tiger_corpus` or `pickle` must be passed as path to TIGER corpus or pickle file, or a `lemmata` dict")
 
     def find_lemma(self, w, pos):
         if pos not in VALID_POS_PREFIXES:
@@ -65,6 +69,11 @@ class GermaLemma(object):
             res = self._adj_lemma(res)
 
         return res
+
+    def dict_search(self, w, pos, use_lower=False):
+        pos_lemmata = self.lemmata_lower[pos] if use_lower else self.lemmata[pos]
+
+        return pos_lemmata.get(w, None)
 
     def _adj_lemma(self, w):
         for full, reduced in ADJ_SUFFIXES_DICT.items():
@@ -117,8 +126,10 @@ class GermaLemma(object):
 
         return lemmata, lemmata_lower
 
-    def dict_search(self, w, pos, use_lower=False):
-        pos_lemmata = self.lemmata_lower[pos] if use_lower else self.lemmata[pos]
+    def save_to_pickle(self, pickle_file):
+        with open(pickle_file, 'wb') as f:
+            pickle.dump((self.lemmata, self.lemmata_lower), f, protocol=2)
 
-        return pos_lemmata.get(w, None)
-
+    def load_from_pickle(self, pickle_file):
+        with open(pickle_file, 'rb') as f:
+            self.lemmata, self.lemmata_lower = pickle.load(f)
