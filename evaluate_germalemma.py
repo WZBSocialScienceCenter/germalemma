@@ -1,14 +1,15 @@
 # -*- coding: utf-8
+from __future__ import division
 import codecs
 from random import shuffle
-from statistics import mean
 from collections import defaultdict
+
+from pattern.de import singularize, conjugate, predicative
 
 from germalemma import GermaLemma, VALID_POS_PREFIXES
 
-tiger_corpus="data/tiger_release_aug07.corrected.16012013.conll09"
 
-def load_tokens(corpus_file):
+def load_tokens_from_tiger(corpus_file):
     known_tokens = set()
     tokens = []
     with codecs.open(corpus_file, encoding='utf8') as f:
@@ -24,7 +25,19 @@ def load_tokens(corpus_file):
 
     return tokens
 
-all_tokens = load_tokens(tiger_corpus)
+
+def lemma_via_patternlib(token, pos):
+    if pos == 'NP':  # singularize noun
+        return singularize(token)
+    elif pos.startswith('V'):  # get infinitive of verb
+        return conjugate(token)
+    elif pos.startswith('ADJ') or pos.startswith('ADV'):  # get baseform of adjective or adverb
+        return predicative(token)
+
+    return token
+
+
+all_tokens = load_tokens_from_tiger('data/tiger_release_aug07.corrected.16012013.conll09')
 
 pct_success_all_trials = []
 incorrect_lemmata = []
@@ -32,7 +45,7 @@ known_incorrect_lemmata_tokens = set()
 for _ in range(10):
     shuffle(all_tokens)
 
-    n_split = int(len(all_tokens) * 0.75)
+    n_split = int(len(all_tokens) * 0.9)
     tokens_a, tokens_b = all_tokens[:n_split], all_tokens[n_split:]
 
     # build lemmatizer with tokens_a
@@ -56,12 +69,19 @@ for _ in range(10):
             known_incorrect_lemmata_tokens |= {token}
 
     n_all = len(tokens_b)
-    pct_success = round(n_success / n_all * 100, 2)
+    pct_success = n_success / n_all * 100
     print('%d / %d = %.2f%%' % (n_success, n_all, pct_success))
 
     pct_success_all_trials.append(pct_success)
 
-print()
-print(mean(pct_success_all_trials))
-#print()
-#print(incorrect_lemmata)
+print('')
+print('success rate germalemma:')
+print('%.2f%%' % (sum(pct_success_all_trials) / len(pct_success_all_trials)))
+
+n_success = 0
+for token, true_lemma, pos in all_tokens:
+    n_success += lemma_via_patternlib(token, pos) == true_lemma
+
+pct_success_pattern = n_success / len(all_tokens) * 100
+print('success rate pattern.de:')
+print('%.2f%%' % pct_success_pattern)
