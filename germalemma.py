@@ -5,7 +5,7 @@ GermaLemma -- Lemmatizer for German language text
 Markus Konrad <markus.konrad@wzb.eu>, WZB
 Mai 2017
 
-In order to use GermaLemma, you will need to download the TIGER corpus of University of Stuttgart
+In order to use GermaLemma, you will need to download the TIGER corpus from the University of Stuttgart
 from http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html
 Their corpus is free to use for non-commercial purposes.
 

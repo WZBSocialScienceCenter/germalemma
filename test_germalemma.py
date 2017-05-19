@@ -15,6 +15,7 @@ test_table = (
     ((u'US-Präsidentenhaus', 'N'), u'US-Präsidentenhaus'),
     ((u'US-Präsidentenhäuser', 'N'), u'US-Präsidentenhaus'),
     ((u'EU-Neu-Delegierte', 'N'), u'EU-Neu-Delegierter'),
+    ((u'Feinstaubbelastungen', 'N'), u'Feinstaubbelastung'),
     # known adjectives
     ((u'fies', 'ADJ'), u'fies'),
     ((u'besser', 'ADJ'), u'gut'),
