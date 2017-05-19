@@ -6,6 +6,7 @@
 import codecs
 import pickle
 from collections import defaultdict
+from importlib import import_module
 
 from pyphen import Pyphen
 
@@ -67,14 +68,22 @@ class GermaLemma(object):
         else:
             self.load_from_pickle('data/lemmata.pickle')
 
-    def find_lemma(self, w, pos):
-        if pos.startswith('N') or pos.startswith('V'):
-            pos = pos[0]
-        elif pos.startswith('ADJ') or pos.startswith('ADV'):
-            pos = pos[:3]
+        self.pattern_module = None
+        use_pattern_module = kwargs.get('use_pattern_module', None)
+        if use_pattern_module in (True, None):
+            try:
+                self.pattern_module = import_module('pattern.de')
+            except ImportError:
+                if use_pattern_module is True:
+                    raise ImportError('pattern.de module could not be loaded')
 
-        if pos not in VALID_POS_PREFIXES:
-            raise ValueError("POS tag `pos` must be one of %s" % str(VALID_POS_PREFIXES))
+    def find_lemma(self, w, pos_tag):
+        if pos_tag.startswith('N') or pos_tag.startswith('V'):
+            pos = pos_tag[0]
+        elif pos_tag.startswith('ADJ') or pos_tag.startswith('ADV'):
+            pos = pos_tag[:3]
+        else:
+            raise ValueError("Unsupported POS tag")
 
         if not w:   # do not process empty strings
             return w
@@ -82,7 +91,7 @@ class GermaLemma(object):
         # look if we can directly find `w` in the lemmata dictionary
         res = self.dict_search(w, pos)
         if res:
-            return res
+            return res   # if it was found, it's a short bet that it's correct
 
         if pos == 'N':
             res = self._composita_lemma(w) or w
@@ -97,6 +106,11 @@ class GermaLemma(object):
                 res = res[0] + res[1:]
         else:
             res = res.lower()
+
+        if self.pattern_module:   # another try: use pattern.de module
+            res_pattern = self._lemma_via_patternlib(w, pos)
+            if res_pattern != w:  # give prevalance to pattern's result
+                return res_pattern
 
         return res
 
@@ -143,6 +157,19 @@ class GermaLemma(object):
                         return res
 
         return None
+
+    def _lemma_via_patternlib(self, token, pos):
+        if not self.pattern_module:
+            raise RuntimeError('pattern.de module not loaded')
+
+        if pos == 'NP':  # singularize noun
+            return self.pattern_module.singularize(token)
+        elif pos.startswith('V'):  # get infinitive of verb
+            return self.pattern_module.conjugate(token)
+        elif pos.startswith('ADJ') or pos.startswith('ADV'):  # get baseform of adjective or adverb
+            return self.pattern_module.predicative(token)
+
+        return token
 
     @classmethod
     def load_corpus_lemmata(cls, corpus_file):

@@ -4,7 +4,13 @@ import codecs
 from random import shuffle
 from collections import defaultdict
 
-from pattern.de import singularize, conjugate, predicative
+try:
+    from pattern.de import singularize, conjugate, predicative
+    print("using pattern.de")
+    PATTERNLIB = True
+except ImportError:
+    print("NOT using pattern.de")
+    PATTERNLIB = False
 
 from germalemma import GermaLemma, VALID_POS_PREFIXES
 
@@ -36,9 +42,10 @@ def lemma_via_patternlib(token, pos):
 
     return token
 
-
+print("loading tokens...")
 all_tokens = load_tokens_from_tiger('data/tiger_release_aug07.corrected.16012013.conll09')
 
+print("running 10 randomized evaluations")
 pct_success_all_trials = []
 incorrect_lemmata = []
 known_incorrect_lemmata_tokens = set()
@@ -78,10 +85,11 @@ print('')
 print('success rate germalemma:')
 print('%.2f%%' % (sum(pct_success_all_trials) / len(pct_success_all_trials)))
 
-n_success = 0
-for token, true_lemma, pos in all_tokens:
-    n_success += lemma_via_patternlib(token, pos) == true_lemma
+if PATTERNLIB:
+    n_success = 0
+    for token, true_lemma, pos in all_tokens:
+        n_success += lemma_via_patternlib(token, pos) == true_lemma
 
-pct_success_pattern = n_success / len(all_tokens) * 100
-print('success rate pattern.de:')
-print('%.2f%%' % pct_success_pattern)
+    pct_success_pattern = n_success / len(all_tokens) * 100
+    print('success rate pattern.de:')
+    print('%.2f%%' % pct_success_pattern)
