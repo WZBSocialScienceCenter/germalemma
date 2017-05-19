@@ -36,7 +36,7 @@ print(lemma)
 
 ## Accuracy
 
-Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **~84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results.
+Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **~84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results and see [this blog post](https://datascience.blog.wzb.eu/2017/05/19/lemmatization-of-german-language-text/) for more information.
 
 ## Requirements
 
