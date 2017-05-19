@@ -1,7 +1,7 @@
 # -*- coding: utf-8
 import pytest
 
-from germalemma import GermaLemma, VALID_POS_PREFIXES
+from germalemma import GermaLemma
 
 lemmatizer = GermaLemma()
 
@@ -22,10 +22,12 @@ test_table = (
     # unknown adjectives
     ((u'unbeschreibliches', 'ADJ'), u'unbeschreiblich'),
     ((u'klagloser', 'ADJ'), u'klaglos'),
+    # capitalize nouns
+    ((u'xyz123', 'N'), u'Xyz123'),
     # nonsense
     ((u'-EU-Delegierte', 'N'), u'-EU-Delegierter'),
     ((u'EU-Delegierte-', 'N'), u'EU-Delegierte-'),
-    ((u'xyz123', 'N'), u'xyz123'),
+    ((u'Xyz123', 'N'), u'Xyz123'),
     ((u'', 'ADV'), u''),
 )
 
