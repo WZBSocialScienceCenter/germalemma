@@ -65,7 +65,7 @@ class GermaLemma(object):
         elif 'pickle' in kwargs:
             self.load_from_pickle(kwargs['pickle'])
         else:
-            raise ValueError("Either `tiger_corpus` or `pickle` must be passed as path to TIGER corpus or pickle file, or a `lemmata` dict")
+            self.load_from_pickle('data/lemmata.pickle')
 
     def find_lemma(self, w, pos):
         if pos.startswith('N') or pos.startswith('V'):
