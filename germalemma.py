@@ -10,6 +10,9 @@ from importlib import import_module
 
 from pyphen import Pyphen
 
+
+DEFAULT_LEMMATA_PICKLE = 'data/lemmata.pickle'
+
 VALID_POS_PREFIXES = ('N', 'V', 'ADJ', 'ADV')
 
 ADJ_SUFFIXES_BASE = (
@@ -66,7 +69,7 @@ class GermaLemma(object):
         elif 'pickle' in kwargs:
             self.load_from_pickle(kwargs['pickle'])
         else:
-            self.load_from_pickle('data/lemmata.pickle')
+            self.load_from_pickle(DEFAULT_LEMMATA_PICKLE)
 
         self.pattern_module = None
         use_pattern_module = kwargs.get('use_pattern_module', None)
@@ -212,3 +215,21 @@ class GermaLemma(object):
     def load_from_pickle(self, pickle_file):
         with open(pickle_file, 'rb') as f:
             self.lemmata, self.lemmata_lower = pickle.load(f)
+
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) < 2:
+        print('run as: %s <path to TIGER corpus conll09 file>' % sys.argv[0])
+        exit(1)
+
+    corpus_file = sys.argv[1]
+    print("loading corpus file '%s'..." % corpus_file)
+    lemmatizer = GermaLemma(tiger_corpus=corpus_file, use_pattern_module=False)
+
+    pickle_file = DEFAULT_LEMMATA_PICKLE
+    print("saving as pickle file '%s'" % pickle_file)
+    lemmatizer.save_to_pickle(pickle_file)
+
+    print("done.")
+    exit(0)
