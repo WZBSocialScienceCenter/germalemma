@@ -2,5 +2,5 @@
 .idea/
 **/__pycache__
 *.pyc
-data/*.conll09
+data
 
