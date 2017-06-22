@@ -9,6 +9,9 @@ In order to use GermaLemma, you will need to download the TIGER corpus from the 
 from http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html
 Their corpus is free to use for non-commercial purposes.
 
+It's supposed to work with a corpus that employs the STTS tagset:
+http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html
+
 Then, you should convert the corpus into pickle format for faster loading by running:
 
 python germalemma.py tiger_release_[...].conll09
@@ -113,8 +116,15 @@ class GermaLemma(object):
 
     def find_lemma(self, w, pos_tag):
         """
-        Find a lemma for word `w` that has a Part-of-Speech tag `pos_tag`.
-        Return the lemma or, if not lemma was found, return `w`. 
+        Find a lemma for word `w` that has a Part-of-Speech tag `pos_tag`. `pos_tag` should be a valid STTS tagset tag
+        (see http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html) or a simplified form
+        with:
+        - 'N' for nouns
+        - 'V' for verbs
+        - 'ADJ' for adjectives
+        - 'ADV' for adverbs
+        All other tags will raise a ValueError("Unsupported POS tag")!
+        Return the lemma or, if no lemma was found, return `w`.
         """
         if pos_tag.startswith('N') or pos_tag.startswith('V'):
             pos = pos_tag[0]

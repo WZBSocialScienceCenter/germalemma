@@ -34,6 +34,17 @@ print(lemma)
 # -> lemma is "Feinstaubbelastung"
 ```
 
+## Valid POS tags
+
+You can pass POS tags from the [STTS tagset](http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html), however, only four POS tags can be processed:
+
+* 'N...' (nouns)
+* 'V...' (verbs)
+* 'ADJ...' (adjectives)
+* 'ADV...' (adverbs)
+
+All other POS tags will result in a `ValueError` so you should wrap the call to `find_lemma` in a *try-except block*.
+
 ## Accuracy
 
 Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **~84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results and see [this blog post](https://datascience.blog.wzb.eu/2017/05/19/lemmatization-of-german-language-text/) for more information.
