@@ -140,6 +140,11 @@ class GermaLemma(object):
         res = self.dict_search(w, pos)
         if res:
             return res   # if it was found, it's a short bet that it's correct
+            
+        if self.pattern_module:   # try to use pattern.de module
+            res_pattern = self._lemma_via_patternlib(w, pos)
+            if res_pattern != w:  # give prevalance to pattern's result if it found something
+                return res_pattern
 
         # try to split nouns that are made of composita
         if pos == 'N':
@@ -157,11 +162,6 @@ class GermaLemma(object):
                 res = res[0].upper() + res[1:]
         else:  # all other forms are lower-case
             res = res.lower()
-
-        if self.pattern_module:   # another try: use pattern.de module
-            res_pattern = self._lemma_via_patternlib(w, pos)
-            if res_pattern != w:  # give prevalance to pattern's result
-                return res_pattern
 
         return res
 
