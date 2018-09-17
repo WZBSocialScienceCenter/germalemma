@@ -53,7 +53,7 @@ Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as tes
 
 * Python 2.7 or Python 3.x
 * required package [*Pyphen*](http://pyphen.org/)
-* optional package [*Pattern*](http://www.clips.ua.ac.be/pattern) (This package is only available for Python 2.x but improves the accuracy from ~71% to ~84%)
+* optional package [*Pattern*](http://www.clips.ua.ac.be/pattern) (This package is optional but highly recommended as it boosts the lemmatizer's accuracy.)
 
 ## License
 

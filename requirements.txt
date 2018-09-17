@@ -1,2 +1,2 @@
-Pattern==2.6
-Pyphen==0.9.4
+Pattern==3.6
+Pyphen==0.9.5
