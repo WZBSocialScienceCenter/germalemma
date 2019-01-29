@@ -1,7 +1,7 @@
-# -*- coding: utf-8
-from __future__ import division
 import codecs
 from random import shuffle
+from statistics import mean, stdev
+from math import sqrt
 from collections import defaultdict
 
 try:
@@ -42,14 +42,27 @@ def lemma_via_patternlib(token, pos):
 
     return token
 
+
+def get_mean_and_ci(data):
+    mean_success = mean(data)
+    sd_success = stdev(data)
+    se_success = sd_success / sqrt(len(data))
+    ci_upper = mean_success + 1.96 * se_success
+    ci_lower = mean_success - 1.96 * se_success
+
+    return mean_success, ci_lower, ci_upper
+
+
 print("loading tokens...")
 all_tokens = load_tokens_from_tiger('data/tiger_release_aug07.corrected.16012013.conll09')
 
-print("running 10 randomized evaluations")
+n_trials = 30
+
+print("running %d randomized evaluations" % n_trials)
 pct_success_all_trials = []
 incorrect_lemmata = []
 known_incorrect_lemmata_tokens = set()
-for _ in range(10):
+for _ in range(n_trials):
     shuffle(all_tokens)
 
     n_split = int(len(all_tokens) * 0.9)
@@ -83,7 +96,10 @@ for _ in range(10):
 
 print('')
 print('success rate germalemma:')
-print('%.2f%%' % (sum(pct_success_all_trials) / len(pct_success_all_trials)))
+
+mean_success, ci_lower, ci_upper = get_mean_and_ci(pct_success_all_trials)
+
+print('%.2f%% (95%% CI: [%.2f%%, %.2f%%])' % (mean_success, ci_lower, ci_upper))
 
 if PATTERNLIB:
     n_success = 0
@@ -91,5 +107,5 @@ if PATTERNLIB:
         n_success += lemma_via_patternlib(token, pos) == true_lemma
 
     pct_success_pattern = n_success / len(all_tokens) * 100
-    print('success rate pattern.de:')
+    print('success rate pattern.de *only* (not randomized, using whole data set):')
     print('%.2f%%' % pct_success_pattern)

@@ -1,9 +1,7 @@
-# -*- coding: utf-8
-
 """
 GermaLemma -- Lemmatizer for German language text
 Markus Konrad <markus.konrad@wzb.eu>, WZB
-Mai 2017
+January 2019
 
 In order to use GermaLemma, you will need to download the TIGER corpus from the University of Stuttgart
 from http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html

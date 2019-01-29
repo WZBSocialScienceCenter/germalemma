@@ -1,6 +1,6 @@
 # GermaLemma
 
-April/Mai 2017, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
+January 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
 
 ## A Lemmatizer for German language text
 
@@ -29,7 +29,7 @@ from germalemma import GermaLemma
 lemmatizer = GermaLemma()
 
 # passing the word and the POS tag ("N" for noun)
-lemma = lemmatizer.find_lemma(u'Feinstaubbelastungen', u'N')
+lemma = lemmatizer.find_lemma('Feinstaubbelastungen', 'N')
 print(lemma)
 # -> lemma is "Feinstaubbelastung"
 ```
@@ -47,11 +47,11 @@ All other POS tags will result in a `ValueError` so you should wrap the call to 
 
 ## Accuracy
 
-Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **~84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results and see [this blog post](https://datascience.blog.wzb.eu/2017/05/19/lemmatization-of-german-language-text/) for more information.
+Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results and see [this blog post](https://datascience.blog.wzb.eu/2017/05/19/lemmatization-of-german-language-text/) for more information.
 
 ## Requirements
 
-* Python 2.7 or Python 3.x
+* Python 3.x (Python 2 is not supported any more!)
 * required package [*Pyphen*](http://pyphen.org/)
 * optional package [*Pattern*](http://www.clips.ua.ac.be/pattern) (This package is optional but highly recommended as it boosts the lemmatizer's accuracy.)
 
