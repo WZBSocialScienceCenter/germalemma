@@ -2,7 +2,9 @@
 
 January 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
 
-## A Lemmatizer for German language text
+## A lemmatizer for German language text
+
+Germalemma lemmatizes Part-of-Speech-tagged German language words. To do so, it combines a large lemma dictionary (an excerpt of the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html)), functions from the CLiPS "Pattern" package, and an algorithm to split composita.
 
 In order to use GermaLemma, you will need to install some additional packages (see *Requirements* section below) and then download the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html). You will need to use the CONLL09 format, *not* the XML format.
 The corpus is free to use for non-commercial purposes (see [License Agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)).

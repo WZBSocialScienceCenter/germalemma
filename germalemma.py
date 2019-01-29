@@ -23,6 +23,11 @@ lemmatizer = GermaLemma()
 ```
 """
 
+__title__ = 'germalemma'
+__version__ = '0.1.0'
+
+import sys
+import os
 import codecs
 import pickle
 from collections import defaultdict
@@ -101,7 +106,10 @@ class GermaLemma(object):
         elif 'pickle' in kwargs:
             self.load_from_pickle(kwargs['pickle'])
         else:
-            self.load_from_pickle(DEFAULT_LEMMATA_PICKLE)
+            try:
+                self.load_from_pickle(DEFAULT_LEMMATA_PICKLE)
+            except FileNotFoundError:
+                self.load_from_pickle(os.path.join(sys.prefix, DEFAULT_LEMMATA_PICKLE))
 
         self.pattern_module = None
         use_pattern_module = kwargs.get('use_pattern_module', None)

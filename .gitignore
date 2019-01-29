@@ -3,3 +3,6 @@
 **/__pycache__
 *.pyc
 .pytest_cache
+build/
+dist/
+*.egg-info/
