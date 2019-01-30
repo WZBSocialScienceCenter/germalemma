@@ -2,17 +2,26 @@
 geovoronoi setuptools based setup module
 """
 
+import os
+
 from setuptools import setup
 
 import germalemma
 
 GITHUB_URL = 'https://github.com/WZBSocialScienceCenter/germalemma'
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+
 setup(
     name=germalemma.__title__,
     version=germalemma.__version__,
     description='A lemmatizer for German language text.',
-    long_description="""Germalemma lemmatizes Part-of-Speech-tagged German language words. To do so, it combines a large lemma dictionary (an excerpt of the TIGER corpus from the University of Stuttgart), functions from the CLiPS "Pattern" package, and an algorithm to split composita.""",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url=GITHUB_URL,
     project_urls={
         'Source': GITHUB_URL,

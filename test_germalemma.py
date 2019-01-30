@@ -1,3 +1,10 @@
+"""
+Tests for germalemma module.
+
+Markus Konrad <markus.konrad@wzb.eu>, Wissenschaftszentrum Berlin für Sozialforschung
+January 2019
+"""
+
 import pytest
 
 from germalemma import GermaLemma
@@ -23,6 +30,7 @@ test_table = (
     (('unbeschreibliches', 'ADJ'), 'unbeschreiblich'),
     (('klagloser', 'ADJ'), 'klaglos'),
     # capitalize nouns
+    (('Abgeordneten', 'NN'), 'Abgeordneter'),
     (('xyz123', 'N'), 'Xyz123'),
     # nonsense
     (('-EU-Delegierte', 'N'), '-EU-Delegierter'),

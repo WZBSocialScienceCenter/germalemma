@@ -6,6 +6,18 @@ January 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Cent
 
 Germalemma lemmatizes Part-of-Speech-tagged German language words. To do so, it combines a large lemma dictionary (an excerpt of the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html)), functions from the CLiPS "Pattern" package, and an algorithm to split composita.
 
+## Installation
+
+### Easy option: Installing from PyPI via `pip`
+
+You can install the package from [PyPI](https://pypi.org/project/germalemma/) via `pip`:
+
+```
+pip install -U germalemma
+```
+
+### Downloading and installing from source
+
 In order to use GermaLemma, you will need to install some additional packages (see *Requirements* section below) and then download the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html). You will need to use the CONLL09 format, *not* the XML format.
 The corpus is free to use for non-commercial purposes (see [License Agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)).
 
@@ -15,7 +27,7 @@ Then, you should convert the corpus into pickle format for faster loading by exe
 python germalemma.py tiger_release_[...].conll09
 ```
 
-This will place a lemmata.pickle file in the "data" directory which is then automatically loaded.
+This will place a `lemmata.pickle` file in the `data` directory which is then automatically loaded.
 
 ## Part-of-Speech (POS) Tagging
 
@@ -45,11 +57,13 @@ You can pass POS tags from the [STTS tagset](http://www.ims.uni-stuttgart.de/for
 * 'ADJ...' (adjectives)
 * 'ADV...' (adverbs)
 
-All other POS tags will result in a `ValueError` so you should wrap the call to `find_lemma` in a *try-except block*.
+**All other POS tags will result in a `ValueError` so you should wrap the call to `find_lemma` in a *try-except block*.**
 
 ## Accuracy
 
-Using 90% of the TIGER corpus as lemmata dictionary and the remaining 10% as test data, GermaLemma finds out the correct lemma for about **84%** of all nouns, verbs, adjectives and adverbs, **when the [*Pattern*](http://www.clips.ua.ac.be/pattern) package is installed**. Without *Pattern*, about **71%** accuracy can be achieved. Run `evaluate_germalemma.py` to see the exact results and see [this blog post](https://datascience.blog.wzb.eu/2017/05/19/lemmatization-of-german-language-text/) for more information.
+GermaLemma's accuracy was evaluated using a sample of 696 POS tagged and manually lemmatized words from a sample of paragraphs from proceedings of the European Parliament, Goethe's "Werther", Kafka's "Verwandlung" and a news article from the website of the WZB (see samples in folder "eval_texts").
+
+**Under the assumption that the POS tag is correct** (only those words were selected), GermaLemma finds the correct lemma in 99.43% of the cases. For comparison, *Pattern* achieved 95.11% for the same sample.
 
 ## Requirements
 

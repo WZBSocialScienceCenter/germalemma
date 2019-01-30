@@ -1,6 +1,6 @@
 """
 GermaLemma -- Lemmatizer for German language text
-Markus Konrad <markus.konrad@wzb.eu>, WZB
+Markus Konrad <markus.konrad@wzb.eu>, Wissenschaftszentrum Berlin für Sozialforschung
 January 2019
 
 In order to use GermaLemma, you will need to download the TIGER corpus from the University of Stuttgart
@@ -132,6 +132,12 @@ class GermaLemma(object):
         All other tags will raise a ValueError("Unsupported POS tag")!
         Return the lemma or, if no lemma was found, return `w`.
         """
+        if not w:   # do not process empty strings
+            return w
+
+        if pos_tag == 'NE':   # if word is a name, it already is the lemma
+            return w
+
         if pos_tag.startswith('N') or pos_tag.startswith('V'):
             pos = pos_tag[0]
         elif pos_tag.startswith('ADJ') or pos_tag.startswith('ADV'):
@@ -139,28 +145,24 @@ class GermaLemma(object):
         else:
             raise ValueError("Unsupported POS tag")
 
-        if not w:   # do not process empty strings
-            return w
-
         # look if we can directly find `w` in the lemmata dictionary
         res = self.dict_search(w, pos)
-        if res:
-            return res   # if it was found, it's a short bet that it's correct
-            
-        if self.pattern_module:   # try to use pattern.de module
+
+        if not res and self.pattern_module:   # try to use pattern.de module
             res_pattern = self._lemma_via_patternlib(w, pos)
-            if res_pattern != w:  # give prevalance to pattern's result if it found something
-                return res_pattern
+            if res_pattern != w:
+                res = res_pattern
 
-        # try to split nouns that are made of composita
-        if pos == 'N':
-            res = self._composita_lemma(w) or w
-        else:
-            res = w
+        if not res:
+            # try to split nouns that are made of composita
+            if pos == 'N':
+                res = self._composita_lemma(w) or w
+            else:
+                res = w
 
-        # try to lemmatize adjectives using prevalent German language adjective suffixes
-        if pos == 'ADJ':
-            res = self._adj_lemma(res)
+            # try to lemmatize adjectives using prevalent German language adjective suffixes
+            if pos == 'ADJ':
+                res = self._adj_lemma(res)
 
         # nouns always start with a capital letter
         if pos == 'N':
