@@ -1,7 +1,7 @@
 """
 GermaLemma -- Lemmatizer for German language text
 Markus Konrad <markus.konrad@wzb.eu>, Wissenschaftszentrum Berlin für Sozialforschung
-January 2019
+December 2019
 
 In order to use GermaLemma, you will need to download the TIGER corpus from the University of Stuttgart
 from http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html
@@ -24,7 +24,7 @@ lemmatizer = GermaLemma()
 """
 
 __title__ = 'germalemma'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 import sys
 import os

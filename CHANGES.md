@@ -1,5 +1,10 @@
 # Changes
 
+## 0.1.2 - 2019-12-06
+
+* changed requirement Pattern to PatternLite
+
+
 ## 0.1.1 - 2019-01-30
 
 * minor improvements in `find_lemma`

@@ -1,2 +1,2 @@
-Pattern==3.6
+PatternLite==3.6
 Pyphen==0.9.5

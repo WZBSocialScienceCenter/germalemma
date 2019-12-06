@@ -41,10 +41,9 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
 
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -55,6 +54,6 @@ setup(
 
     py_modules=['germalemma'],
     data_files=[('data', ['data/lemmata.pickle'])],
-    python_requires='>=3.4',
-    install_requires=['Pattern>=3.6', 'Pyphen>=0.9.5']
+    python_requires='>=3.6',
+    install_requires=['PatternLite>=3.6', 'Pyphen>=0.9.5']
 )

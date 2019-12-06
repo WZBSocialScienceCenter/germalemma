@@ -1,6 +1,6 @@
 # GermaLemma
 
-January 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
+December 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
 
 ## A lemmatizer for German language text
 
@@ -69,7 +69,7 @@ GermaLemma's accuracy was evaluated using a sample of 696 POS tagged and manuall
 
 * Python 3.x (Python 2 is not supported any more!)
 * required package [*Pyphen*](http://pyphen.org/)
-* optional package [*Pattern*](http://www.clips.ua.ac.be/pattern) (This package is optional but highly recommended as it boosts the lemmatizer's accuracy.)
+* optional package [*PatternLite*](https://github.com/WZBSocialScienceCenter/patternlite) (This package is optional but highly recommended as it boosts the lemmatizer's accuracy.)
 
 ## License
 
