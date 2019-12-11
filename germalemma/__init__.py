@@ -24,7 +24,7 @@ lemmatizer = GermaLemma()
 """
 
 __title__ = 'germalemma'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 import sys
 import os
@@ -36,7 +36,8 @@ from importlib import import_module
 from pyphen import Pyphen
 
 
-DEFAULT_LEMMATA_PICKLE = 'data/lemmata.pickle'
+MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_LEMMATA_PICKLE = os.path.join(MODULE_PATH, 'data', 'lemmata.pickle')
 
 # valid part-of-speech prefixes
 VALID_POS_PREFIXES = ('N', 'V', 'ADJ', 'ADV')

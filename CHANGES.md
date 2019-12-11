@@ -1,5 +1,9 @@
 # Changes
 
+## 0.1.3 - 2019-12-11
+
+* fixed problems loading lemmata data file on Windows systems
+
 ## 0.1.2 - 2019-12-06
 
 * changed requirement Pattern to PatternLite

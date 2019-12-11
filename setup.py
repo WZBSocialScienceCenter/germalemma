@@ -4,7 +4,7 @@ geovoronoi setuptools based setup module
 
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 import germalemma
 
@@ -52,8 +52,10 @@ setup(
 
     keywords='text lemmatization normalization textmining textanalysis mining preprocessing',
 
-    py_modules=['germalemma'],
-    data_files=[('data', ['data/lemmata.pickle'])],
+    packages=find_packages(),
+    package_data={
+        'germalemma': ['data/lemmata.pickle']
+    },
     python_requires='>=3.6',
     install_requires=['PatternLite>=3.6', 'Pyphen>=0.9.5']
 )

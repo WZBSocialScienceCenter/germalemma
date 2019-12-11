@@ -67,7 +67,7 @@ GermaLemma's accuracy was evaluated using a sample of 696 POS tagged and manuall
 
 ## Requirements
 
-* Python 3.x (Python 2 is not supported any more!)
+* Python 3.6 or newer
 * required package [*Pyphen*](http://pyphen.org/)
 * optional package [*PatternLite*](https://github.com/WZBSocialScienceCenter/patternlite) (This package is optional but highly recommended as it boosts the lemmatizer's accuracy.)
 
