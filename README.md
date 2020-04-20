@@ -21,10 +21,10 @@ pip install -U germalemma
 In order to use GermaLemma, you will need to install some additional packages (see *Requirements* section below) and then download the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html). You will need to use the CONLL09 format, *not* the XML format.
 The corpus is free to use for non-commercial purposes (see [License Agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)).
 
-Then, you should convert the corpus into pickle format for faster loading by executing *germalemma.py* and passing the path to the corpus file in CONLL09 format:
+Then, you should convert the corpus into pickle format for faster loading by executing *germalemma/__init__.py* and passing the path to the corpus file in CONLL09 format:
 
 ```
-python germalemma.py tiger_release_[...].conll09
+python germalemma/__init__.py tiger_release_[...].conll09
 ```
 
 This will place a `lemmata.pickle` file in the `data` directory which is then automatically loaded.
