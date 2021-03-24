@@ -16,7 +16,9 @@ You can install the package from [PyPI](https://pypi.org/project/germalemma/) vi
 pip install -U germalemma
 ```
 
-### Downloading and installing from source
+### Alternative option: Downloading and installing from source
+
+**Only do this if you don't install germalemma via pip:**
 
 In order to use GermaLemma, you will need to install some additional packages (see *Requirements* section below) and then download the [TIGER corpus from the University of Stuttgart](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/tiger.html). You will need to use the CONLL09 format, *not* the XML format.
 The corpus is free to use for non-commercial purposes (see [License Agreement](http://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/TIGERCorpus/license/htmlicense.html)).
