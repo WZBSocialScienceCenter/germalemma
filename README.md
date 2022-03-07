@@ -1,6 +1,8 @@
 # GermaLemma
 
-December 2019, Markus Konrad <markus.konrad@wzb.eu> / [Berlin Social Science Center](https://www.wzb.eu/en)
+December 2019, Markus Konrad <markus.konrad@wzb.eu> / <post@mkonrad.net> / [Berlin Social Science Center](https://www.wzb.eu/en)
+
+**This project is currently not maintained.**
 
 ## A lemmatizer for German language text
 
