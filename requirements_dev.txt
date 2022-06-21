@@ -12,7 +12,7 @@ jeepney==0.4.1
 keyring==19.3.0
 more-itertools==8.0.2
 nltk==3.4.5
-numpy==1.17.4
+numpy==1.22.0
 packaging==19.2
 pandas==0.25.3
 PatternLite==3.6
